@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Тренажер переговорів IMPORT ACADEMY: шість сценаріїв для голосових тренувань у Gemini Live.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Тренажер переговорів</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Onest:wght@500;600;700&display=swap">
+<style>
+/* Layout concept: a shipping manifest. Scenario list on the left like cargo lines, one detail sheet on the right. */
+:root{
+  --bg:#EDF0F3; --surface:#FFFFFF; --ink:#14212B; --muted:#566673; --line:#D3DBE2;
+  --accent:#0B5D75; --accent-ink:#FFFFFF; --accent-soft:#DDEEF3; --code-bg:#F3F5F7;
+  --lv1:#2B7A4B; --lv1-bg:#E1F1E7; --lv2:#8F5A06; --lv2-bg:#F7EBD4; --lv3:#A8352A; --lv3-bg:#F6E0DC;
+  --font-display:'Onest',system-ui,sans-serif;
+  --font-body:'IBM Plex Sans',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E161C; --surface:#16212A; --ink:#E6EDF2; --muted:#93A4B1; --line:#263541;
+    --accent:#5BB8D4; --accent-ink:#06222B; --accent-soft:#15333D; --code-bg:#0B1217;
+    --lv1:#6FCB92; --lv1-bg:#173325; --lv2:#E3B15C; --lv2-bg:#38290F; --lv3:#EE8A7C; --lv3-bg:#3D1B17; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E161C; --surface:#16212A; --ink:#E6EDF2; --muted:#93A4B1; --line:#263541;
+  --accent:#5BB8D4; --accent-ink:#06222B; --accent-soft:#15333D; --code-bg:#0B1217;
+  --lv1:#6FCB92; --lv1-bg:#173325; --lv2:#E3B15C; --lv2-bg:#38290F; --lv3:#EE8A7C; --lv3-bg:#3D1B17; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.55;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--bg)}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3{font-family:var(--font-display);line-height:1.2;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{padding-top:28px;display:flex;flex-direction:column;gap:6px}
+.brand{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+header.top h1{font-size:clamp(28px,5vw,40px);font-weight:700;letter-spacing:-.01em}
+header.top p{color:var(--muted);max-width:62ch}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:21;background:var(--bg);margin-top:18px;border-bottom:1px solid var(--line)}
+nav.tabs .row{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs a{flex:none;padding:12px 14px;text-decoration:none;color:var(--muted);font-weight:500;font-size:15px;border-bottom:2px solid transparent;margin-bottom:-1px}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs a:hover{color:var(--ink)}
+
+main{padding-top:24px}
+.panel[hidden]{display:none}
+
+/* scenarios */
+.sc-grid{display:grid;grid-template-columns:290px minmax(0,1fr);gap:24px;align-items:start}
+.sc-list{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0}
+.sc-list a{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);text-decoration:none;color:var(--ink)}
+.sc-list a[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.sc-list .n{font-family:var(--font-mono);font-size:13px;color:var(--muted);padding-top:2px}
+.sc-list .t{font-weight:600;font-size:15px;line-height:1.3}
+.sc-list .q{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;margin-top:6px}
+.lv1{color:var(--lv1);background:var(--lv1-bg)} .lv2{color:var(--lv2);background:var(--lv2-bg)} .lv3{color:var(--lv3);background:var(--lv3-bg)}
+
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:10px;min-width:0}
+.sheet-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.sheet-head .meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-family:var(--font-mono);font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+.sheet-head .meta .pill{margin:0}
+.sheet-head h2{font-size:clamp(22px,3.4vw,28px);font-weight:700}
+.sheet-head .goal{color:var(--ink)}
+.sheet-head .goal b{font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border-bottom:1px solid var(--line)}
+.facts div{padding:14px 24px;border-right:1px solid var(--line);min-width:0}
+.facts div:last-child{border-right:0}
+.lab{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.facts span.v{font-weight:600}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+.cols section{padding:20px 24px;border-bottom:1px solid var(--line);min-width:0}
+.cols section:nth-child(odd){border-right:1px solid var(--line)}
+.cols section.full{grid-column:1/-1;border-right:0}
+.cols ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.cols li::marker{color:var(--muted)}
+.note{margin:0;padding:14px 24px;background:var(--lv2-bg);color:var(--ink);font-size:14.5px;border-bottom:1px solid var(--line)}
+.promptbox{padding:20px 24px;display:flex;flex-direction:column;gap:12px}
+.promptbox .bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.promptbox .hint{color:var(--muted);font-size:14px}
+details.pr summary{cursor:pointer;color:var(--accent);font-weight:500;font-size:14.5px;width:max-content}
+pre.prompt{margin:10px 0 0;padding:16px;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;font-family:var(--font-mono);font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:420px;overflow:auto}
+
+.btn{font:inherit;font-weight:600;font-size:15px;padding:10px 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.sm{padding:6px 12px;font-size:14px}
+
+/* generic blocks */
+.page-title{font-size:clamp(22px,3.4vw,28px);margin-bottom:6px}
+.lead{color:var(--muted);max-width:66ch;margin-bottom:22px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;list-style:none;margin:0 0 26px;padding:0;counter-reset:s}
+.steps li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;counter-increment:s;min-width:0}
+.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-family:var(--font-mono);font-size:13px;font-weight:500;margin-bottom:10px}
+.steps h3{font-size:17px;margin-bottom:6px}
+.steps p{color:var(--muted);font-size:15px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px;min-width:0}
+.box h3{font-size:18px;margin-bottom:8px}
+.box p{color:var(--muted);font-size:15px;margin-bottom:10px}
+.phrase{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-top:10px}
+.phrase q,.phrase span.txt{font-family:var(--font-mono);font-size:13.5px;quotes:none;min-width:0;word-break:break-word}
+.warn{background:var(--lv2-bg);border-radius:8px;padding:12px 14px;font-size:14.5px;margin-top:12px}
+
+/* builder */
+.builder{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:20px;align-items:start}
+.form{display:flex;flex-direction:column;gap:14px}
+label.f{display:flex;flex-direction:column;gap:5px;font-weight:600;font-size:14.5px}
+label.f small{font-weight:400;color:var(--muted);font-size:13px}
+input[type=text],textarea,select{font:inherit;font-size:15px;font-weight:400;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 11px;width:100%}
+textarea{resize:vertical;min-height:84px}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg label{flex:1;text-align:center;cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;padding:9px 6px;font-size:14.5px;font-weight:500;color:var(--muted);background:var(--surface)}
+.seg input:checked+span{background:var(--accent);color:var(--accent-ink)}
+.seg input:focus-visible+span{outline:2px solid var(--accent);outline-offset:-2px}
+.seg label+label span{border-left:1px solid var(--line)}
+.preview{position:relative}
+.preview .bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.preview pre.prompt{max-height:none;margin:0}
+
+/* progress */
+.prog{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer;font-size:15px}
+.check:last-of-type{border-bottom:0}
+.check input{margin-top:4px;width:17px;height:17px;accent-color:var(--accent)}
+.meter{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 4px}
+.meter i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.scoretbl{width:100%;border-collapse:collapse;font-size:15px}
+.scoretbl th{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:6px 4px}
+.scoretbl td{padding:7px 4px;border-top:1px solid var(--line)}
+.scoretbl select{padding:6px 8px;width:76px}
+.scoretbl tfoot td{font-weight:600;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+.delta{margin-top:12px;font-weight:600}
+.scale{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:6px}
+.scale td{padding:6px 4px;border-top:1px solid var(--line);vertical-align:top}
+.scale td:first-child{font-family:var(--font-mono);width:34px;color:var(--accent);font-weight:500}
+
+footer{margin-top:34px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line);padding-top:14px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14.5px;z-index:40;max-width:calc(100% - 32px);opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+
+@media (max-width:860px){
+  .sc-grid,.builder,.prog{grid-template-columns:minmax(0,1fr)}
+  .cols{grid-template-columns:minmax(0,1fr)}
+  .cols section:nth-child(odd){border-right:0}
+  .facts div{border-right:0;border-bottom:1px solid var(--line)}
+  .facts div:last-child{border-bottom:0}
+  .sheet-head,.cols section,.promptbox,.note{padding-left:18px;padding-right:18px}
+  .facts div{padding-left:18px;padding-right:18px}
+}
+@media (prefers-reduced-motion:reduce){.meter i,.toast{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">IMPORT ACADEMY</div>
+    <h1>Тренажер переговорів</h1>
+    <p>Шість ситуацій із міжнародної логістики для голосових тренувань у Gemini Live. Оберіть сценарій, скопіюйте промпт і проведіть розмову як менеджер.</p>
+  </header>
+  <nav class="tabs" aria-label="Розділи"><div class="row" id="tabs"></div></nav>
+
+  <main id="main">
+    <!-- Сценарії -->
+    <div class="panel" id="panel-scenarios" hidden>
+      <div class="sc-grid">
+        <ul class="sc-list" id="sc-list"></ul>
+        <article class="sheet" id="sheet"></article>
+      </div>
+    </div>
+
+    <!-- Запуск -->
+    <div class="panel" id="panel-launch" hidden>
+      <h2 class="page-title">Як запустити тренування</h2>
+      <p class="lead">Потрібні смартфон з Android або iPhone, обліковий запис Google і мобільний застосунок Gemini. Назви кнопок можуть трохи відрізнятися залежно від версії застосунку.</p>
+      <ol class="steps">
+        <li><h3>Встановіть Gemini</h3><p>Знайдіть застосунок Google Gemini у Google Play або App Store, відкрийте його й увійдіть в обліковий запис Google. На запит про мікрофон дайте дозвіл.</p></li>
+        <li><h3>Вставте сценарій у новий чат</h3><p>На вкладці «Сценарії» натисніть «Копіювати промпт». У Gemini створіть новий чат, вставте текст і надішліть. Якщо Gemini одразу відповів текстом від імені клієнта, це нормально.</p></li>
+        <li><h3>Увімкніть Live</h3><p>У нижній частині чату натисніть кнопку Live із значком голосового режиму. Якщо клієнт не заговорив сам, скажіть, що сценарій уже в чаті, і попросіть почати роль.</p></li>
+        <li><h3>Проведіть розмову</h3><p>Говоріть так, ніби телефонуєте клієнту. Спочатку запитання, потім пропозиція. Не обіцяйте того, чого не можете підтвердити, і завершуйте розмову конкретною домовленістю.</p></li>
+        <li><h3>Завершіть самі</h3><p>Коли розмова вичерпана, скажіть команду завершення й натисніть кнопку завершення Live. Gemini не відстежує час, тому момент завершення визначаєте ви.</p></li>
+        <li><h3>Перевірте транскрипт</h3><p>Поверніться в текстовий чат і знайдіть розшифровку. Перегляньте, чи правильно розпізнано ваші репліки, і переходьте до вкладки «Розбір».</p></li>
+      </ol>
+      <div class="box">
+        <h3>Фрази, які знадобляться</h3>
+        <p>Якщо Gemini не почав розмову:</p>
+        <div class="phrase"><q id="ph1">Ми підготували сценарій переговорів у цьому чаті. Почни виконувати роль клієнта відповідно до інструкції.</q><button class="btn ghost sm" data-copy="ph1">Копіювати</button></div>
+        <p style="margin-top:14px">Якщо Gemini почав підказувати посеред розмови:</p>
+        <div class="phrase"><q id="ph2">Залишайся в ролі клієнта. Не підказуй мені відповіді. Продовжуємо переговори.</q><button class="btn ghost sm" data-copy="ph2">Копіювати</button></div>
+        <p style="margin-top:14px">Щоб завершити тренування:</p>
+        <div class="phrase"><q id="ph3">Завершуємо переговори.</q><button class="btn ghost sm" data-copy="ph3">Копіювати</button></div>
+        <div class="warn">Не використовуйте в тренуванні реальні персональні дані клієнтів, конфіденційні тарифи чи комерційні документи. Доступність історії й транскрипту залежить від налаштувань активності Gemini.</div>
+      </div>
+    </div>
+
+    <!-- Конструктор -->
+    <div class="panel" id="panel-builder" hidden>
+      <h2 class="page-title">Конструктор сценарію</h2>
+      <p class="lead">Змініть поля, і промпт праворуч оновиться. Що точніше описана ситуація, то кориснішим буде тренування. Поведінка ШІ залишається непередбачуваною, тому перевіряйте, чи клієнт розкриває заперечення поступово.</p>
+      <div class="builder">
+        <div class="form">
+          <label class="f" for="c-role">Роль клієнта<input type="text" id="c-role" value="власник інтернет-магазину, який імпортує товари з Китаю"></label>
+          <label class="f" for="c-offer">Що пропонуємо<input type="text" id="c-offer" value="доставка збірного вантажу (LCL) з Китаю в Україну"></label>
+          <label class="f" for="c-stage">Етап переговорів
+            <select id="c-stage">
+              <option>перший контакт</option>
+              <option>розрахунок вартості</option>
+              <option selected>обговорення отриманої комерційної пропозиції</option>
+              <option>повторні переговори</option>
+            </select>
+          </label>
+          <label class="f" for="c-obj">Заперечення клієнта <small>Кожне з нового рядка. Достатньо двох-трьох.</small>
+            <textarea id="c-obj">У конкурентів дешевше
+Не бачу різниці між пропозиціями
+Не впевнений у надійності нової компанії</textarea>
+          </label>
+          <div class="f" role="group" aria-labelledby="diff-l"><span id="diff-l">Складність</span>
+            <div class="seg">
+              <label><input type="radio" name="diff" value="Початковий"><span>Початковий</span></label>
+              <label><input type="radio" name="diff" value="Середній" checked><span>Середній</span></label>
+              <label><input type="radio" name="diff" value="Складний"><span>Складний</span></label>
+            </div>
+          </div>
+          <label class="f" for="c-goal">Навчальна мета<input type="text" id="c-goal" value="виявлення потреб і робота із запереченнями"></label>
+          <label class="f" for="c-lang">Мова переговорів
+            <select id="c-lang"><option value="українською" selected>Українська</option><option value="англійською">English</option><option value="російською">Русский</option></select>
+          </label>
+          <label class="f" for="c-fb">Що оцінити після тренування
+            <textarea id="c-fb">Оціни виявлення потреб, аргументацію, роботу із запереченнями та домовленість про наступний крок. Наведи приклади реплік і рекомендації.</textarea>
+          </label>
+        </div>
+        <div class="preview">
+          <div class="bar"><span class="lab" style="margin:0">Готовий промпт</span><button class="btn" id="b-copy">Копіювати промпт</button></div>
+          <pre class="prompt" id="b-out"></pre>
+        </div>
+      </div>
+      <div class="box" style="margin-top:22px">
+        <h3>Типові помилки в сценаріях</h3>
+        <div class="tw"><table class="scale">
+          <tr><td></td><td><b>«Будь складним клієнтом».</b> Уточніть, що саме робить клієнта вимогливим.</td></tr>
+          <tr><td></td><td><b>Забагато заперечень.</b> Залиште два-три основні.</td></tr>
+          <tr><td></td><td><b>Немає етапу угоди.</b> Вкажіть, що вже обговорювали.</td></tr>
+          <tr><td></td><td><b>Клієнт погоджується на все.</b> Вимагайте аргументів і конкретики.</td></tr>
+          <tr><td></td><td><b>ШІ вигадує умови доставки.</b> Зафіксуйте відомі дані й забороніть видавати припущення за факти.</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- Розбір -->
+    <div class="panel" id="panel-review" hidden>
+      <h2 class="page-title">Розбір переговорів</h2>
+      <p class="lead">Після кожного тренування поверніться в текстовий чат Gemini й вставте один із цих запитів. Перевіряйте, чи наведені репліки справді є в транскрипті: транскрипт може містити помилки розпізнавання, а оцінка ШІ є навчальним зворотним зв'язком, а не вироком.</p>
+      <div id="review-list"></div>
+      <div class="box">
+        <h3>Шкала оцінювання</h3>
+        <div class="tw"><table class="scale">
+          <tr><td>1</td><td>Навичка майже не проявилася або була суттєва помилка</td></tr>
+          <tr><td>2</td><td>Спроба була, але результат недостатній</td></tr>
+          <tr><td>3</td><td>Базовий рівень, є помітні недоліки</td></tr>
+          <tr><td>4</td><td>Хороше виконання з незначними недоліками</td></tr>
+          <tr><td>5</td><td>Упевнене, послідовне й доречне виконання</td></tr>
+        </table></div>
+        <p style="margin:10px 0 0">Якщо в транскрипті немає змоги оцінити критерій, пишіть «Недостатньо даних», а не 1 бал.</p>
+      </div>
+    </div>
+
+    <!-- Прогрес -->
+    <div class="panel" id="panel-progress" hidden>
+      <h2 class="page-title">Мій прогрес</h2>
+      <p class="lead">Записи зберігаються лише в цьому браузері. Оцінки тут це ваша самооцінка, порівняйте її з аналізом транскрипту й висновками викладача.</p>
+      <div class="prog">
+        <div class="box">
+          <h3>Контрольний список</h3>
+          <div id="checks"></div>
+          <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+          <p id="check-count" style="margin:0">Виконано 0 з 7</p>
+        </div>
+        <div class="box">
+          <h3>Самооцінка: перша й повторна спроба</h3>
+          <div class="tw"><table class="scoretbl">
+            <thead><tr><th>Критерій</th><th>Перша</th><th>Повторна</th></tr></thead>
+            <tbody id="score-body"></tbody>
+            <tfoot><tr><td>Разом</td><td id="tot1">0 / 25</td><td id="tot2">0 / 25</td></tr></tfoot>
+          </table></div>
+          <p class="delta" id="delta"></p>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Що я хочу покращити наступного разу</h3>
+        <textarea id="note" aria-label="Що я хочу покращити наступного разу" placeholder="Одна навичка, яку тренуватиму далі, і одна фраза, яку скажу інакше"></textarea>
+        <div style="margin-top:12px"><button class="btn ghost" id="p-copy">Копіювати мої результати</button></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>Компанії, тарифи, суми й обставини в сценаріях умовні. Це навчальні приклади, а не реальні комерційні пропозиції ImportHelp. Не вважайте результат тренування допуском до роботи з реальними клієнтами.</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+/* ---------- common prompt rules ---------- */
+var RULES=[
+ 'Поводься як реальний клієнт і реагуй на мої запитання та аргументи природно.',
+ 'Не розкривай усі заперечення одразу. Розкривай їх поступово, залежно від моїх запитань.',
+ 'Не підказуй мені правильні відповіді й не оцінюй мене під час розмови.',
+ 'Не виходь із ролі, поки я не скажу «Завершуємо переговори».',
+ 'Не вигадуй тарифів, строків і умов перевезення, яких немає в сценарії.'
+];
+
+/* ---------- scenarios ---------- */
+var S=[
+{id:1,title:'Перший контакт і виявлення потреб',quote:'«Скільки коштує доставка?»',level:'Початковий',lv:1,
+ route:'Китай → Україна',stage:'Перший контакт',
+ goal:'З’ясувати потребу клієнта, визначити дані для розрахунку, пояснити процес і погодити наступний крок.',
+ situation:'Український підприємець уперше планує імпортувати товар із Китаю й питає про вартість доставки. Він не розуміє, які дані потрібні для розрахунку.',
+ objections:['Чому вам потрібна ця інформація?','Мені хотілося б хоча б орієнтовно розуміти вартість.','Не знаю ваги, габаритів, умов Incoterms чи точної адреси завантаження.'],
+ tasks:['З’ясувати потребу клієнта.','Визначити, які дані потрібні для розрахунку.','Пояснити процес розрахунку.','Погодити наступний крок.'],
+ expected:['Привітатися й запитати, який товар і звідки його планують вивозити.','Пояснити, чому вартість залежить від ваги, обсягу та умов поставки.','Не називати суму без даних, але дати клієнту зрозумілий порядок дій.','Узгодити, що клієнт надасть і коли ви повернетеся з розрахунком.'],
+ criteria:['Встановлення контакту','Виявлення потреб','Професійність пояснень','Робота із запитаннями та сумнівами','Узгодження наступного кроку'],
+ retry:'Повторіть і не називайте жодних сум, поки не зберете хоча б чотири параметри вантажу та умови поставки.',
+ prompt:`Ти — ШІ-тренажер переговорів для студента IMPORT ACADEMY.
+
+Ми проводимо голосову симуляцію реальної розмови між менеджером міжнародної логістичної компанії та потенційним клієнтом.
+
+Твоя роль: український підприємець, який уперше планує імпортувати товар із Китаю.
+
+Ситуація:
+Ти телефонуєш до логістичної компанії та запитуєш: «Добрий день! Скільки коштує доставка товару з Китаю в Україну?»
+Ти поки що не розумієш, які саме дані потрібні для розрахунку перевезення.
+
+Твоя поведінка:
+— Відповідай природно, як реальний клієнт.
+— Не повідомляй усю інформацію про вантаж одразу.
+— Надавай подробиці поступово, коли менеджер ставить доречні запитання.
+— Можеш не знати вагу, габарити, умови Incoterms або точну адресу завантаження.
+— Запитуй, чому менеджеру потрібна певна інформація.
+— Наполягай, що тобі хотілося б хоча б орієнтовно розуміти вартість.
+— Не підказуй менеджеру правильні запитання.
+
+Завдання студента:
+З'ясувати потребу клієнта, визначити необхідні дані для розрахунку, пояснити процес і погодити наступний крок.
+
+Правила симуляції:
+1. Спілкуйся українською мовою.
+2. Не виходь із ролі клієнта під час переговорів.
+3. Не оцінюй відповіді студента в процесі.
+4. Не погоджуйся автоматично з кожною пропозицією.
+5. Почни розмову після запуску голосового режиму.
+6. Коли студент скаже «Завершуємо переговори», вийди з ролі.
+
+Після завершення оціни:
+— Встановлення контакту.
+— Виявлення потреб.
+— Професійність пояснень.
+— Роботу із запитаннями та сумнівами.
+— Узгодження наступного кроку.
+
+Кожен критерій — від 1 до 5 балів. Максимум — 25.
+Наведи конкретні вдалі фрази, помилки та запропонуй покращені формулювання.
+
+Початкова репліка клієнта:
+«Добрий день! Підкажіть, скільки коштуватиме доставка товару з Китаю?»`},
+
+{id:2,title:'Робота з ціновим запереченням',quote:'«На $300 дешевше»',level:'Середній',lv:2,
+ route:'LCL · Китай → Україна',stage:'Порівняння двох пропозицій',
+ goal:'Не просто знижувати ціну, а з’ясувати умови обох пропозицій, показати цінність послуги й домовитися про наступний крок.',
+ situation:'Клієнт отримав дві пропозиції на доставку збірного вантажу: вашу за 1 850 доларів і конкурента за 1 550. Він не знає напевно, чи однаковий перелік послуг у них входить.',
+ objections:['Навіщо платити більше, якщо інша компанія дешевша на 300 доларів?','Не переконують абстрактні аргументи про якість.','Сумніви щодо термінів, додаткових платежів і надійності.'],
+ tasks:['З’ясувати умови обох пропозицій.','Показати цінність послуги конкретикою.','Не пропонувати знижку замість аргументів.','Домовитися про наступний крок.'],
+ expected:['Визнати, що різниця в ціні суттєва.','Запитати, що саме входить у пропозицію конкурента.','Порівняти умови на однакових підставах: строки, додаткові платежі, відповідальність.','Не вигадувати переваг, яких не можете підтвердити.','Узгодити звірку пропозицій і наступний контакт.'],
+ criteria:['Контакт і професійний тон','Уточнення умов конкурентної пропозиції','Аргументація цінності','Робота із запереченням щодо ціни','Конкретний наступний крок'],
+ retry:'Повторіть і перші п’ять реплік складіть лише із запитань про склад двох пропозицій. Слово «знижка» не вживайте.',
+ prompt:`Ти — ШІ-тренажер переговорів IMPORT ACADEMY.
+
+Твоя роль: власник української компанії, який регулярно закуповує товари в Китаї.
+
+Ситуація:
+Ти отримав дві пропозиції на доставку збірного вантажу LCL із Китаю в Україну.
+Пропозиція менеджера, якого грає студент, — 1850 доларів.
+Пропозиція конкурента — 1550 доларів.
+Ти не знаєш напевно, чи включають обидві пропозиції однаковий перелік послуг.
+
+Твоя позиція:
+«Навіщо мені платити вам більше, якщо інша компанія пропонує на 300 доларів дешевше?»
+
+Поведінка:
+— Будь вимогливим, але ввічливим.
+— Не погоджуйся з абстрактними аргументами про якість.
+— Запитуй, за що саме ти маєш переплачувати.
+— Якщо менеджер пропонує порівняти умови, вислухай і відповідай на його запитання.
+— Не розкривай усіх деталей конкурентної пропозиції без уточнень.
+— Можеш сумніватися в термінах доставки, додаткових платежах і надійності.
+— Не погоджуйся автоматично на дорожчу пропозицію.
+
+Завдання студента:
+Не просто знижувати ціну, а з'ясувати умови обох пропозицій, показати цінність послуги та домовитися про наступний крок.
+
+Правила:
+— Веди переговори українською.
+— Залишайся в ролі клієнта до завершення.
+— Не допомагай студенту підказками.
+— Реагуй на якість аргументів.
+— Не вигадуй підтверджених переваг логістичної компанії — вимагай від менеджера конкретики.
+— Після слів «Завершуємо переговори» проведи аналіз.
+
+Оцінювання — 25 балів:
+1. Контакт і професійний тон.
+2. Уточнення умов конкурентної пропозиції.
+3. Аргументація цінності.
+4. Робота із запереченням щодо ціни.
+5. Конкретний наступний крок.
+
+Для кожного критерію постав 1–5 балів, поясни оцінку, наведи помилки та кращі формулювання.
+
+Почни словами:
+«Дивіться, мені інша компанія порахувала цю доставку за 1550 доларів. А у вас 1850. Чому я маю платити більше?»`},
+
+{id:3,title:'Клієнт має постійного партнера',quote:'«Нас усе влаштовує»',level:'Середній',lv:2,
+ route:'Дзвінок із пропозицією співпраці',stage:'Перша розмова з керівником закупівель',
+ goal:'Побудувати контакт, зрозуміти ситуацію клієнта, знайти точку цінності й погодити реалістичний крок без вимоги негайно змінити перевізника.',
+ situation:'Ви телефонуєте керівнику відділу закупівель із пропозицією співпраці. Його компанія кілька років працює з іншим перевізником, і він загалом задоволений.',
+ objections:['У нас уже є логістична компанія.','Немає вагомої причини щось змінювати.','Зустріч через наполегливість співрозмовника не потрібна.'],
+ tasks:['Побудувати контакт.','З’ясувати, як клієнт організовує поставки.','Знайти можливу точку цінності.','Погодити реалістичний наступний крок без вимоги змінити перевізника.'],
+ expected:['Не сперечатися з тим, що перевізник уже є.','Ставити відкриті запитання про організацію поставок.','Прислухатися до згадок про затримки чи складнощі й не критикувати чинного партнера.','Розглянути роль резервного партнера й пояснити конкретну користь.','Домовитися про невеликий крок без тиску.'],
+ criteria:['Встановлення контакту','Виявлення ситуації та потреб','Формулювання цінності співпраці','Робота із запереченням','Узгодження наступного кроку'],
+ retry:'Повторіть і не пропонуйте змінити перевізника. Запропонуйте роль резервного партнера й перевірте реакцію клієнта.',
+ prompt:`Ти — ШІ-тренажер переговорів IMPORT ACADEMY.
+
+Твоя роль: керівник відділу закупівель української компанії, яка регулярно імпортує товари.
+
+Ситуація:
+Менеджер нової логістичної компанії телефонує тобі з пропозицією співпраці.
+Твоя компанія вже кілька років працює з іншим перевізником. Загалом ти задоволений співпрацею та не плануєш терміново нічого змінювати.
+
+Твоя початкова позиція:
+«Дякую, але в нас уже є логістична компанія, з якою ми працюємо».
+
+Поведінка:
+— Не демонструй активного інтересу на початку.
+— Не погоджуйся змінювати підрядника без вагомої причини.
+— Якщо менеджер ставить змістовні запитання, поступово розповідай про організацію поставок.
+— Можеш згадати, що іноді виникають затримки або складнощі з термінами, але не розкривай цього одразу.
+— Якщо менеджер пропонує бути резервним партнером, оцінюй конкретну користь.
+— Не погоджуйся на зустріч лише через наполегливість співрозмовника.
+
+Завдання студента:
+Побудувати контакт, зрозуміти ситуацію клієнта, знайти можливу точку цінності та погодити реалістичний наступний крок без вимоги негайно змінити перевізника.
+
+Правила:
+— Українська мова.
+— Реалістична ділова розмова.
+— Не підказуй правильні аргументи.
+— Не виходь із ролі під час симуляції.
+— Після команди «Завершуємо переговори» надай оцінку.
+
+Оцінювання — 25 балів:
+1. Встановлення контакту.
+2. Виявлення ситуації та потреб.
+3. Формулювання цінності співпраці.
+4. Робота із запереченням.
+5. Узгодження наступного кроку.
+
+Наведи конкретні приклади фраз студента, які спрацювали або завадили переговорам.
+
+Початкова репліка:
+«Дякую за дзвінок, але ми вже давно працюємо з логістичною компанією. Нас усе влаштовує».`},
+
+{id:4,title:'Складний клієнт і конфліктна ситуація',quote:'«Через вас зриваються продажі!»',level:'Складний',lv:3,
+ route:'Затримка вантажу',stage:'Претензія клієнта',
+ goal:'Впоратися з емоційним тиском, з’ясувати факти, не давати необґрунтованих обіцянок, пояснити подальші дії й зберегти професійні відносини.',
+ situation:'Вантаж клієнта затримується на кілька днів порівняно з очікуваною датою. Через це виникли проблеми з продажами та зобов’язаннями перед покупцями. Клієнт телефонує й вимагає пояснень.',
+ objections:['Що відбувається з нашим вантажем?','Хто відповідатиме за затримку?','Слова «так буває» і «ми нічого не можемо зробити» не підходять.','Потрібні конкретні терміни оновлення статусу та план дій.'],
+ tasks:['Контролювати тон і не вступати в конфлікт.','З’ясувати факти й потреби клієнта.','Не давати необґрунтованих обіцянок.','Запропонувати конкретний план дій.'],
+ expected:['Визнати ситуацію й не виправдовуватися.','Запитати, до яких наслідків для клієнта призвела затримка.','Чесно розділити, що відомо, а що ні.','Не звинувачувати інших без пояснень.','Назвати конкретний час наступного повідомлення про статус.'],
+ criteria:['Контроль тону та встановлення контакту','З’ясування обставин і потреб клієнта','Чіткість і достовірність пояснень','Робота з емоціями та претензіями','Конкретний план подальших дій'],
+ retry:'Повторіть і перші відповіді присвятіть визнанню проблеми та запитанням про наслідки для клієнта, без пояснень причин.',
+ prompt:`Ти — ШІ-тренажер переговорів IMPORT ACADEMY.
+
+Твоя роль: роздратований клієнт логістичної компанії.
+
+Ситуація:
+Твій вантаж затримується на кілька днів порівняно з очікуваною датою прибуття.
+Через це виникають проблеми з продажами та зобов'язаннями перед покупцями.
+Ти телефонуєш менеджеру й вимагаєш пояснень.
+
+Твоя поведінка:
+— На початку говори емоційно та вимогливо.
+— Запитуй, хто відповідатиме за затримку.
+— Не задовольняйся словами «так буває» або «ми нічого не можемо зробити».
+— Вимагай конкретної інформації, термінів оновлення статусу та плану дій.
+— Якщо менеджер визнає проблему, уважно слухає й пропонує реалістичні кроки, поступово знижуй емоційність.
+— Якщо менеджер звинувачує інших без пояснень, посилюй невдоволення.
+— Не вимагай неможливого, але наполягай на відповідальній комунікації.
+
+Завдання студента:
+Впоратися з емоційним тиском, з'ясувати факти, не давати необґрунтованих обіцянок, пояснити подальші дії та зберегти професійні відносини.
+
+Правила:
+— Українська мова.
+— Реалістична емоційна розмова без образ.
+— Не підказуй студенту відповіді.
+— Не виходь із ролі до команди «Завершуємо переговори».
+
+Оцінювання — 25 балів:
+1. Контроль тону та встановлення контакту.
+2. З'ясування обставин і потреб клієнта.
+3. Чіткість і достовірність пояснень.
+4. Робота з емоціями та претензіями.
+5. Конкретний план подальших дій.
+
+Після завершення наведи оцінки, сильні сторони, помилки та приклади професійніших відповідей.
+
+Почни розмову:
+«Добрий день! Поясніть мені, будь ласка, що відбувається з нашим вантажем? Він уже мав бути в Україні! Через вас у нас зриваються продажі!»`},
+
+{id:5,title:'Переговори про регулярну співпрацю',quote:'«Чим ваші умови відрізняються?»',level:'Складний',lv:3,
+ route:'Регулярні перевезення · Азія → Україна',stage:'Умови співпраці',
+ goal:'Провести структуровані переговори, виявити пріоритети клієнта, представити цінність без вигаданих гарантій і домовитися про конкретний наступний крок.',
+ situation:'Комерційний директор торговельної компанії, яка регулярно імпортує товари з Азії, розглядає нового логістичного партнера. Для нього важливі передбачуваність витрат, стабільні терміни, прозорість умов, документообіг і комунікація.',
+ objections:['Як формуються тарифи і які можливі додаткові платежі?','Що буде у разі затримок?','Які умови оплати і де межі відповідальності сторін?','Я не готовий передати всі поставки новому партнеру одразу.'],
+ tasks:['Виявити бізнес-пріоритети клієнта.','Представити цінність співпраці без вигаданих гарантій.','Відповісти на складні запитання конкретикою.','Домовитися про конкретний наступний крок.'],
+ expected:['Спочатку про клієнта, потім про свою компанію.','Пояснити, з чого складаються тарифи та які платежі можливі.','Описати порядок дій у разі затримок, не обіцяючи недосяжного.','Запропонувати тестову поставку й обговорити її умови.','Не відповідати загальними фразами, коли клієнт просить конкретики.'],
+ criteria:['Професійний контакт','Виявлення бізнес-потреб','Презентація цінності','Робота зі складними запитаннями та запереченнями','Досягнення конкретної домовленості'],
+ retry:'Повторіть і першу половину розмови говоріть лише про клієнта: його критерії, ризики та досвід із додатковими платежами.',
+ prompt:`Ти — ШІ-тренажер переговорів IMPORT ACADEMY.
+
+Твоя роль: комерційний директор української торговельної компанії, яка регулярно імпортує товари з Азії.
+
+Ситуація:
+Ти розглядаєш можливість співпраці з новим логістичним партнером.
+Для тебе важливі не лише тарифи, а й передбачуваність витрат, стабільність термінів, прозорість умов, документообіг і якість комунікації.
+Ти готовий розглядати пропозиції, але не хочеш брати на себе зайві зобов'язання.
+
+Поведінка:
+— Став професійні запитання.
+— Уточнюй, як формуються тарифи.
+— Запитуй про можливі додаткові платежі.
+— Цікався порядком роботи у випадку затримок.
+— Запитуй про умови оплати та відповідальність сторін.
+— Не приймай загальні обіцянки без конкретики.
+— Не погоджуйся одразу передати всі поставки новому партнеру.
+— Якщо менеджер пропонує тестову поставку, обговорюй її умови.
+— Не підказуй студенту правильні рішення.
+
+Завдання студента:
+Провести структуровані переговори, виявити пріоритети клієнта, представити цінність співпраці без вигаданих гарантій та домовитися про конкретний наступний крок.
+
+Правила:
+— Українська мова.
+— Професійний, вимогливий стиль.
+— Не виходь із ролі.
+— Не спрощуй ситуацію, якщо студент відповідає поверхово.
+— Після команди «Завершуємо переговори» проведи аналіз.
+
+Оцінювання — 25 балів:
+1. Професійний контакт.
+2. Виявлення бізнес-потреб.
+3. Презентація цінності.
+4. Робота зі складними запитаннями та запереченнями.
+5. Досягнення конкретної домовленості.
+
+Для кожного критерію постав 1–5 балів, поясни причину оцінки та запропонуй покращення.
+
+Початкова репліка:
+«Ми регулярно возимо товар з Азії. Мене цікавить, що ви можете запропонувати для довгострокової співпраці та чим ваші умови відрізняються від інших компаній?»`},
+
+{id:6,title:'Секретар і вихід на директора',quote:'«Надішліть на пошту»',level:'Складний',lv:3,
+ route:'Холодний дзвінок · міжнародні перевезення',stage:'Перший дзвінок у компанію',
+ note:'Успіх тут не в прямому контакті з директором. Якщо ви нічого не з’ясували й лише почули «надішліть на пошту», це не повноцінний результат.',
+ goal:'Пройти секретаря без тиску, з’ясувати, хто вирішує, як розглядають нових партнерів, і домовитися про реалістичний наступний крок.',
+ situation:'Ви вперше телефонуєте в торговельну компанію, щоб запропонувати послуги міжнародних перевезень. Трубку бере секретар. Компанія вже має постійного логістичного партнера, а директор, який займається логістикою, своїх контактів стороннім не дає.',
+ objections:['У нас уже є логістична компанія.','Нам нічого не потрібно.','Цими питаннями займається директор, і він зараз зайнятий.','Ми не надаємо його контактів.','Надішліть пропозицію на пошту.','Якщо буде цікаво, з вами зв’яжуться.'],
+ tasks:['Професійно представитися й коротко пояснити причину дзвінка.','Не сперечатися з тим, що перевізник уже є.','З’ясувати, хто відповідає за вибір логістичних партнерів.','Не вимагати конфіденційних контактів.','Уточнити, що саме, кому і в якому вигляді надіслати, замість бездумної згоди на «пошту».','Домовитися про конкретний наступний крок.'],
+ expected:['Назвати себе й компанію та за одне-два речення пояснити можливу користь.','Не просити номер директора й не тиснути.','Запитати, як у компанії розглядають пропозиції нових партнерів.','На «надішліть на пошту» уточнити адресата, формат і порядок розгляду.','Домовитися про передачу короткого повідомлення, повторний дзвінок або офіційний канал звернення.'],
+ criteria:['Початок дзвінка та встановлення контакту','Чіткість мети дзвінка та формулювання цінності','Робота із запереченнями секретаря','З’ясування відповідальної особи та процедури комунікації','Досягнення конкретного наступного кроку'],
+ retry:'Повторіть і замість «надішліть на пошту» уточніть, кому адресувати пропозицію, у якому вигляді й як відбувається розгляд.',
+ prompt:`Ти — ШІ-тренажер переговорів IMPORT ACADEMY.
+
+Ми проводимо голосову симуляцію холодного телефонного дзвінка.
+
+Твоя роль: секретар або офіс-менеджер української торговельної компанії, яка імпортує товари з-за кордону.
+
+Ситуація:
+Студент грає менеджера логістичної компанії. Він телефонує вперше, щоб запропонувати послуги міжнародних перевезень.
+
+Твоя компанія вже має постійного логістичного партнера.
+
+Питаннями міжнародної логістики переважно займається директор, але ти не маєш права передавати його особистий номер телефону стороннім людям.
+
+Ти регулярно отримуєш комерційні дзвінки, тому намагаєшся швидко завершувати розмови, які не мають очевидної користі.
+
+Твої основні заперечення:
+— «У нас уже є логістична компанія».
+— «Нам нічого не потрібно».
+— «Цими питаннями займається директор».
+— «Директор зараз зайнятий».
+— «Ми не надаємо його контактів».
+— «Надішліть вашу пропозицію на електронну пошту».
+— «Якщо буде цікаво, з вами зв'яжуться».
+
+ВАЖЛИВО:
+Не висловлюй усі заперечення одразу.
+Використовуй їх поступово, залежно від того, як менеджер веде розмову.
+
+Твоя поведінка:
+1. На початку будь ввічливим, але стриманим.
+2. Не виявляй зацікавленості лише тому, що менеджер назвав свою компанію.
+3. Якщо менеджер одразу просить номер директора, відмовляй.
+4. Якщо менеджер використовує тиск, маніпуляції або неправдиві твердження про попередні домовленості, припиняй розмову.
+5. Якщо менеджер говорить загальними рекламними фразами, пропонуй надіслати інформацію на пошту.
+6. Якщо менеджер коротко й конкретно пояснює можливу користь для компанії, можеш поставити уточнювальне запитання.
+7. Якщо менеджер професійно з'ясовує порядок розгляду пропозицій, можеш пояснити, як передаються звернення відповідальній особі.
+8. Не розкривай особисті контактні дані директора.
+9. Не обіцяй, що директор обов'язково відповість.
+10. Можеш погодитися передати коротке повідомлення, підказати офіційний канал звернення або назвати посаду відповідального працівника, якщо менеджер переконливо пояснив мету дзвінка.
+
+Завдання студента:
+— Професійно представитися.
+— Коротко й зрозуміло пояснити причину дзвінка.
+— Не сперечатися з тим, що компанія вже має перевізника.
+— З'ясувати, хто відповідає за вибір логістичних партнерів.
+— Показати можливу цінність розмови.
+— Не вимагати конфіденційних контактів.
+— Не погоджуватися бездумно на «надішліть на пошту», а уточнити, яку інформацію доречно надіслати, кому вона адресована та як відбувається розгляд.
+— Домовитися про конкретний і реалістичний наступний крок.
+
+Умови успішного результату:
+Не обов'язково отримати прямий контакт директора.
+Успіхом може бути:
+— Узгоджений спосіб передати конкретну пропозицію відповідальній особі.
+— Дозвіл на повторний дзвінок у погоджений час.
+— З'ясування процедури розгляду нових логістичних партнерів.
+— Передача короткого повідомлення відповідальному працівнику.
+Якщо менеджер нічого не з'ясував і просто почув «надішліть на пошту», це не повноцінний успіх.
+
+Правила симуляції:
+1. Спілкуйся українською мовою.
+2. Залишайся в ролі секретаря.
+3. Не підказуй правильних відповідей.
+4. Не погоджуйся автоматично на прохання менеджера.
+5. Змінюй реакцію залежно від якості його аргументів.
+6. Розмова має бути максимально схожою на реальний холодний дзвінок.
+7. Після фрази «Завершуємо переговори» вийди з ролі.
+
+Оцінювання — 25 балів:
+1. Початок дзвінка та встановлення контакту — 1–5.
+2. Чіткість мети дзвінка та формулювання цінності — 1–5.
+3. Робота із запереченнями секретаря — 1–5.
+4. З'ясування відповідальної особи та процедури комунікації — 1–5.
+5. Досягнення конкретного наступного кроку — 1–5.
+
+Після завершення:
+— Постав загальну оцінку з 25 балів.
+— Поясни, чому секретар погодився або відмовив.
+— Наведи три найсильніші репліки студента.
+— Визнач три помилки.
+— Запропонуй покращені формулювання.
+— Покажи, як міг би звучати більш професійний варіант цієї розмови.
+
+Почни голосову симуляцію словами:
+«Добрий день! Компанія "Альфа Трейд", слухаю вас».`}
+];
+
+
+/* ---------- review prompts ---------- */
+var REVIEW=[
+{title:'Повний аудит',use:'Після будь-якого тренування. Дає оцінки за п’ятьма критеріями, цитати й одну навичку для повторної спроби.',
+ text:'Ти — тренер із продажів міжнародних логістичних послуг.\n\nПроаналізуй нашу завершену симуляцію переговорів, спираючись виключно на доступний транскрипт. Мета аналізу — допомогти мені вдосконалити навички продажів.\n\nОціни п’ять критеріїв:\n1. Встановлення контакту.\n2. Виявлення потреб клієнта.\n3. Аргументація цінності послуги.\n4. Робота із запереченнями.\n5. Завершення переговорів і наступний крок.\n\nДля кожного критерію:\n— постав оцінку від 1 до 5;\n— поясни оцінку;\n— наведи конкретну репліку з транскрипту;\n— запропонуй, що варто покращити.\n\nЯкщо даних для оцінювання немає, напиши «Недостатньо даних» і не вигадуй оцінку.\n\nДодатково визнач:\n— три найсильніші моменти;\n— три найважливіші помилки;\n— заперечення, з яким я впорався найгірше;\n— чи давав я непідтверджені обіцянки;\n— чи не тиснув я на клієнта;\n— чи правильно визначив наступний крок.\n\nНаприкінці сформуй загальний висновок, назви одну головну навичку для покращення та запропонуй коротку вправу для неї.\n\nНе вигадуй реплік, фактів, тарифів або домовленостей. Відповідай українською.'},
+{title:'Покращення формулювань',use:'Коли аудит показав слабкі відповіді й потрібні готові кращі варіанти.',
+ text:'Переглянь транскрипт нашої симуляції переговорів.\n\nЗнайди п’ять моїх відповідей, які можна було сформулювати краще. Для кожної наведи:\n1. Точну цитату моєї відповіді.\n2. Що саме в ній було слабким.\n3. Який ризик вона створювала під час переговорів.\n4. Кращий варіант відповіді.\n5. Чому новий варіант доречніший.\n\nЗберігай природний стиль ділового спілкування. Не пропонуй маніпулятивних технік і не вигадуй комерційних переваг, яких не було підтверджено.\n\nЯкщо в транскрипті менше п’яти відповідей, які потребують покращення, проаналізуй лише наявні. Відповідай українською.'},
+{title:'Порівняння двох спроб',use:'Після повторного тренування. Надішліть цей запит, а потім обидва транскрипти з позначками А і Б.',
+ text:'Ти — тренер із продажів міжнародних логістичних послуг.\n\nЯ надам два транскрипти переговорів:\nА — перша спроба;\nБ — повторна спроба після аналізу помилок.\n\nПорівняй мої дії за критеріями: встановлення контакту, виявлення потреб, аргументація, робота із запереченнями, завершення переговорів.\n\nДля кожного критерію:\n— наведи приклади з обох транскриптів;\n— поясни, що змінилося;\n— визнач, чи є помітне покращення;\n— зазнач, якщо порівняння некоректне через різні умови симуляцій.\n\nНе вигадуй цитат і не вважай автоматично другу спробу кращою.\n\nНаприкінці сформуй три підтверджені покращення, дві навички, які ще потребують розвитку, і одне конкретне завдання для наступного тренування. Відповідай українською.\n\nДочекайся, поки я надам обидва транскрипти.'}
+];
+
+/* ---------- toast + copy ---------- */
+var tt;
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},2200)}
+function selectNode(el){try{var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}}
+function copyText(text,node,after){
+  function fail(){if(after)after();if(node)selectNode(node);toast('Автоматичне копіювання недоступне. Текст виділено, скопіюйте вручну.')}
+  try{navigator.clipboard.writeText(text).then(function(){toast('Скопійовано')},fail)}catch(e){fail()}
+}
+
+/* ---------- tabs / routing ---------- */
+var TABS=[['scenarios','Сценарії'],['launch','Запуск'],['builder','Конструктор'],['review','Розбір'],['progress','Мій прогрес']];
+var lastScenario=1;
+function renderTabs(active){
+  $('#tabs').innerHTML=TABS.map(function(t){
+    var href=t[0]==='scenarios'?'scenario-'+lastScenario:t[0];
+    return '<a href="#'+href+'"'+(t[0]===active?' aria-current="page"':'')+'>'+t[1]+'</a>';
+  }).join('');
+}
+function renderList(){
+  $('#sc-list').innerHTML=S.map(function(s){
+    return '<li><a href="#scenario-'+s.id+'"'+(s.id===lastScenario?' aria-current="true"':'')+'>'+
+      '<span class="n">'+s.id+'</span><span><span class="t">'+esc(s.title)+'</span><span class="q">'+esc(s.quote)+'</span><span class="pill lv'+s.lv+'">'+s.level+'</span></span></a></li>';
+  }).join('');
+}
+function li(a){return a.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')}
+function renderSheet(){
+  var s=S[lastScenario-1];
+  $('#sheet').innerHTML=
+   '<div class="sheet-head"><div class="meta"><span>Сценарій '+s.id+' з '+S.length+'</span><span class="pill lv'+s.lv+'">'+s.level+'</span><span>'+esc(s.route)+'</span></div>'+
+   '<h2>'+esc(s.title)+'</h2><p class="goal"><b>Мета.</b> '+esc(s.goal)+'</p></div>'+
+   '<div class="facts"><div><span class="lab">Етап</span><span class="v">'+esc(s.stage)+'</span></div><div><span class="lab">Ваша роль</span><span class="v">Менеджер логістичної компанії</span></div></div>'+
+   (s.note?'<p class="note">'+esc(s.note)+'</p>':'')+
+   '<div class="cols">'+
+   '<section class="full"><span class="lab">Ситуація</span><p>'+esc(s.situation)+'</p></section>'+
+   '<section><span class="lab">Можливі заперечення клієнта</span><ul>'+li(s.objections)+'</ul></section>'+
+   '<section><span class="lab">Завдання менеджера</span><ul>'+li(s.tasks)+'</ul></section>'+
+   '<section><span class="lab">Очікувані дії</span><ul>'+li(s.expected)+'</ul></section>'+
+   '<section><span class="lab">Що оцінюється</span><ul>'+li(s.criteria.map(function(c){return c.charAt(0).toUpperCase()+c.slice(1)}))+'</ul></section>'+
+   '<section class="full"><span class="lab">Повторна спроба</span><p>'+esc(s.retry)+'</p></section></div>'+
+   '<div class="promptbox"><div class="bar"><button class="btn" id="sc-copy">Копіювати промпт для Gemini</button><span class="hint">Вставте його в новий чат Gemini, потім запустіть Live.</span></div>'+
+   '<details class="pr"><summary>Показати текст промпта</summary><pre class="prompt" id="sc-pre"></pre></details></div>';
+  $('#sc-pre').textContent=s.prompt;
+  $('#sc-copy').onclick=function(){copyText(s.prompt,$('#sc-pre'),function(){$('details.pr').open=true})};
+}
+function route(){
+  var h=(location.hash||'').slice(1);
+  var tab='scenarios';
+  var m=/^scenario-(\d)$/.exec(h);
+  if(m&&S[+m[1]-1]){lastScenario=+m[1]}
+  else if(TABS.some(function(t){return t[0]===h})){tab=h}
+  else if(h&&!m){tab='scenarios'}
+  if(m||!h)tab='scenarios';
+  if(TABS.some(function(t){return t[0]===h}))tab=h;
+  renderTabs(tab);
+  TABS.forEach(function(t){$('#panel-'+t[0]).hidden=(t[0]!==tab)});
+  if(tab==='scenarios'){renderList();renderSheet()}
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+
+/* ---------- launch phrases ---------- */
+$$('[data-copy]').forEach(function(b){b.onclick=function(){var n=document.getElementById(b.getAttribute('data-copy'));copyText(n.textContent,n)}});
+
+/* ---------- review ---------- */
+$('#review-list').innerHTML=REVIEW.map(function(r,i){
+  return '<div class="box"><h3>'+esc(r.title)+'</h3><p>'+esc(r.use)+'</p><button class="btn ghost sm" data-r="'+i+'">Копіювати запит</button>'+
+    '<details class="pr" style="margin-top:10px"><summary>Показати текст</summary><pre class="prompt" id="rv'+i+'"></pre></details></div>';
+}).join('');
+REVIEW.forEach(function(r,i){$('#rv'+i).textContent=r.text});
+$$('[data-r]').forEach(function(b){b.onclick=function(){var i=+b.getAttribute('data-r');var d=b.parentNode.querySelector('details');copyText(REVIEW[i].text,$('#rv'+i),function(){d.open=true})}});
+
+/* ---------- builder ---------- */
+var DIFF={
+ 'Початковий':'Будь доброзичливим і відкритим до пояснень. Став прості уточнювальні запитання. Не тисни й не ускладнюй розмову.',
+ 'Середній':'Будь вимогливим, але конструктивним. Не погоджуйся з загальними обіцянками. Став уточнювальні запитання та вимагай конкретики.',
+ 'Складний':'Будь вимогливим і скептичним, але професійним і ввічливим. Не погоджуйся на загальні обіцянки, вимагай конкретики й підтверджень. Не приймай рішення без переконливих аргументів.'
+};
+function val(id){return $('#'+id).value.trim()}
+function builderText(){
+  var o=[];
+  var role=val('c-role'),offer=val('c-offer'),stage=val('c-stage'),goal=val('c-goal'),fb=val('c-fb');
+  var objs=$('#c-obj').value.split('\n').map(function(x){return x.trim()}).filter(Boolean);
+  var diff=($('input[name=diff]:checked')||{}).value||'Середній';
+  var lang=$('#c-lang').value;
+  o.push('Ти — '+(role||'клієнт української компанії')+'.');
+  if(offer)o.push('\nМи обговорюємо: '+offer+'.');
+  if(stage)o.push('Етап переговорів: '+stage+'.');
+  if(objs.length){o.push('\nТвої можливі заперечення:');objs.forEach(function(x,i){o.push((i+1)+'. '+x)})}
+  o.push('\nРівень складності: '+diff.toLowerCase()+'.');
+  o.push(DIFF[diff]);
+  o.push('\nПравила симуляції:');
+  RULES.forEach(function(r){o.push('— '+r)});
+  if(goal)o.push('\nМоя навчальна мета: '+goal+'.');
+  o.push('Мова переговорів: '+lang+'.');
+  o.push('\nПісля моєї команди «Завершуємо переговори» вийди з ролі клієнта.');
+  if(fb)o.push('\nЗворотний зв’язок: '+fb);
+  o.push('Не вигадуй цитат із розмови. Якщо транскрипт неповний, зазнач це.');
+  o.push('\nПочни розмову як клієнт.');
+  return o.join('\n');
+}
+function refreshBuilder(){$('#b-out').textContent=builderText()}
+$$('#panel-builder input,#panel-builder textarea,#panel-builder select').forEach(function(e){e.addEventListener('input',refreshBuilder);e.addEventListener('change',refreshBuilder)});
+$('#b-copy').onclick=function(){copyText(builderText(),$('#b-out'))};
+refreshBuilder();
+
+/* ---------- progress ---------- */
+var CHECKS=['Налаштував(-ла) Gemini Live і провів(-ла) першу розмову','Перевірив(-ла) транскрипт','Отримав(-ла) аудит за п’ятьма критеріями','Знайшов(-ла) щонайменше три відповіді для покращення','Провів(-ла) повторне тренування','Порівняв(-ла) дві спроби','Пройшов(-ла) усі шість сценаріїв'];
+var CRIT=['Встановлення контакту','Виявлення потреб','Аргументація цінності','Робота із запереченнями','Завершення переговорів'];
+var KEY='ia-trainer-v1';
+var st={checks:[],s1:[],s2:[],note:''};
+try{var raw=localStorage.getItem(KEY);if(raw){var j=JSON.parse(raw);if(j&&typeof j==='object')st=Object.assign(st,j)}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+$('#checks').innerHTML=CHECKS.map(function(c,i){return '<label class="check" for="ck'+i+'"><input type="checkbox" id="ck'+i+'"><span>'+esc(c)+'</span></label>'}).join('');
+function opts(sel){var h='<option value="">—</option><option value="nd">н/д</option>';for(var i=1;i<=5;i++)h+='<option value="'+i+'"'+(String(sel)===String(i)?' selected':'')+'>'+i+'</option>';return h}
+$('#score-body').innerHTML=CRIT.map(function(c,i){
+  return '<tr><td>'+esc(c)+'</td><td><select id="a'+i+'" aria-label="Перша спроба: '+esc(c)+'">'+opts('')+'</select></td><td><select id="b'+i+'" aria-label="Повторна спроба: '+esc(c)+'">'+opts('')+'</select></td></tr>';
+}).join('');
+function restore(){
+  CHECKS.forEach(function(_,i){$('#ck'+i).checked=!!(st.checks&&st.checks[i])});
+  CRIT.forEach(function(_,i){$('#a'+i).value=(st.s1&&st.s1[i])||'';$('#b'+i).value=(st.s2&&st.s2[i])||''});
+  $('#note').value=st.note||'';
+}
+function sumOf(arr){var n=0,c=0,all=true;for(var i=0;i<5;i++){var v=arr[i];if(v&&v!=='nd'){n+=+v;c++}else if(v!=='nd'){all=false}}return {n:n,c:c,all:all&&c===5}}
+function update(){
+  st.checks=CHECKS.map(function(_,i){return $('#ck'+i).checked});
+  st.s1=CRIT.map(function(_,i){return $('#a'+i).value});
+  st.s2=CRIT.map(function(_,i){return $('#b'+i).value});
+  st.note=$('#note').value;
+  var done=st.checks.filter(Boolean).length;
+  $('#meter').style.width=(done/CHECKS.length*100)+'%';
+  $('#check-count').textContent='Виконано '+done+' з '+CHECKS.length;
+  var a=sumOf(st.s1),b=sumOf(st.s2);
+  function lab(x,arr){var nd=arr.filter(function(v){return v==='nd'}).length;var max=(5-nd)*5;return x.n+' / '+max}
+  $('#tot1').textContent=lab(a,st.s1);$('#tot2').textContent=lab(b,st.s2);
+  var d=$('#delta');
+  var scored=function(arr){return arr.filter(function(v){return v&&v!=='nd'}).length};
+  if(scored(st.s1)===5&&scored(st.s2)===5){
+    var diff=b.n-a.n;
+    d.textContent=diff>0?'Зміна результату: +'+diff+' балів':diff<0?'Зміна результату: '+diff+' балів':'Результат не змінився';
+  }else{d.textContent='Заповніть усі п’ять оцінок в обох спробах, щоб побачити зміну. Зростання балів саме по собі ще не доводить сформовану навичку.'}
+  save();
+}
+$$('#panel-progress input,#panel-progress select,#panel-progress textarea').forEach(function(e){e.addEventListener('input',update);e.addEventListener('change',update)});
+$('#p-copy').onclick=function(){
+  var l=['Мій прогрес у тренажері переговорів','','Виконано: '+st.checks.filter(Boolean).length+' з '+CHECKS.length,'','Самооцінка (перша / повторна):'];
+  CRIT.forEach(function(c,i){l.push('— '+c+': '+(st.s1[i]||'—')+' / '+(st.s2[i]||'—'))});
+  l.push('Разом: '+$('#tot1').textContent+' / '+$('#tot2').textContent);
+  l.push('');l.push('Що покращити наступного разу: '+(st.note||'—'));
+  copyText(l.join('\n'),null);
+};
+restore();update();
+route();
+})();
+</script>
+
+</body>
+</html>
